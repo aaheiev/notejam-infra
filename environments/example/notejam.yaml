@@ -1,0 +1,18 @@
+---
+config:
+  RAILS_ENV:         production
+  REDIS_URL:         redis://redis:6379/0
+  DB_NAME:           notejam
+  DB_HOST:           postgres
+  DB_PORT:           5432
+  DB_POOL:           5
+  DB_USER:           notejam
+
+initializeSecret:    true
+secrets:
+  APP_SESSION_KEY:   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  DB_PASS:           xxxxxxxxxxxxxxxx
+
+image:
+  repository:        xxxxxxxxxxxx.dkr.ecr.eu-west-1.amazonaws.com/notejam
+

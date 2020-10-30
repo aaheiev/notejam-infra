@@ -1,0 +1,32 @@
+# Default values for postgres.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+nameOverride:        ""
+fullnameOverride:    ""
+
+initializeConfig:    true
+config:
+  POSTGRES_DB:       postgres
+  POSTGRES_USER:     postgres
+
+initializeSecret:    true
+secrets:
+  POSTGRES_PASSWORD: P@ssw0rd!
+replicaCount:        1
+
+image:
+  repository:        postgres
+  pullPolicy:        IfNotPresent
+  tag:               12-alpine
+
+service:
+  type:              ClusterIP
+  port:              5432
+
+resources:
+  requests:
+    cpu:             150m
+    memory:          256Mi
+  limits:
+    cpu:             450m
+    memory:          1Gi

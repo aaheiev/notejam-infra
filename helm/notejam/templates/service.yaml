@@ -1,0 +1,21 @@
+{{- $fullName    := include "notejam.fullname" . -}}
+---
+apiVersion:                       v1
+kind:                             Service
+metadata:
+  name:                           {{ $fullName }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+{{ include "notejam.labels" . | indent 4 }}
+spec:
+  type:                           {{ .Values.service.type }}
+  ports:
+    - port:                       {{ .Values.service.port }}
+      targetPort:                 3000
+      protocol:                   TCP
+      name:                       http
+  selector:
+    {{- include "notejam.selectorLabels" . | nindent 4 }}

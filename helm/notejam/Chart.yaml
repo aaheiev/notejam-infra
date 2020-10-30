@@ -1,0 +1,6 @@
+apiVersion:  v2
+name:        notejam
+description: Notejam Helm chart
+type:        application
+version:     0.0.8
+appVersion:  0.0.8

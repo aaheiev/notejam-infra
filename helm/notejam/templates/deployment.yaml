@@ -1,0 +1,47 @@
+{{- $fullName    := include "notejam.fullname" . -}}
+{{- $configName  := default $fullName .Values.existingConfigMap -}}
+{{- $secretName  := default $fullName .Values.existingSecret -}}
+---
+apiVersion:                  apps/v1
+kind:                        Deployment
+metadata:
+  name:                      {{ include "notejam.fullname" . }}
+  labels:
+    {{- include "notejam.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas:                  {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "notejam.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "notejam.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name:              {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image:             {{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          imagePullPolicy:   {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name:        {{ $secretName }}
+            - configMapRef:
+                name:        {{ $configName }}
+          ports:
+            - name:          http
+              containerPort: 3000
+              protocol:      TCP
+          livenessProbe:
+            httpGet:
+              path:          /
+              port:          http
+          readinessProbe:
+            httpGet:
+              path:          /
+              port:          http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
