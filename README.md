@@ -233,6 +233,9 @@ image:
  
 #### Install helm charts
 
+| WARNING: Please, don't run database in Kubernetes on live production system. This is for demo only!!! |
+| --- |
+
 Install PostgreSQL
 ```shell script
 helm upgrade --install -n demo --create-namespace --wait \
